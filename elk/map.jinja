@@ -1,0 +1,41 @@
+{## Start with  defaults from defaults.yaml ##}
+{% import_yaml "elk/defaults.yaml" as default_settings %}
+
+{% set os_family_map = salt['grains.filter_by']({
+    'Debian': {
+      'elasticsearch_pkg': 'elasticsearch',
+      'elasticsearch_srv': 'elasticsearch',
+      'kibana_pkg': 'kibana',
+      'kibana_srv': 'kibana',
+      'logstash_pkg': 'logstash',
+      'logstash_srv': 'logstash',
+      'filebeat_pkg': 'filebeat',
+      'filebeat_srv': 'filebeat',
+
+    },
+    'RedHat': {
+      'elasticsearch_pkg': 'elasticsearch',
+      'elastic_srv': 'elasticsearch',
+      'kibana_pkg': 'kibana',
+      'kibana_srv': 'kibana',
+      'logstash_pkg': 'logstash',
+      'logstash_srv': 'logstash',
+      'filebeat_pkg': 'filebeat',
+      'filebeat_srv': 'filebeat',
+    }
+  }
+  , grain="os_family"
+  , merge=salt['pillar.get']('elk:lookup'))
+%}
+
+{## Merge the flavor_map to the default settings ##}
+{% do default_settings.elk.update(os_family_map) %}
+
+{## Merge in elk:lookup pillar ##}
+{% set elk = salt['pillar.get'](
+    'elk',
+    default=default_settings.elk,
+    merge=True
+  )
+%}
+

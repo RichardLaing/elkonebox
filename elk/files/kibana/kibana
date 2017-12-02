@@ -1,0 +1,6 @@
+{% from "elk/map.jinja" import elk with context %}
+
+
+{% for line in elk.get("kibana", []) %}
+{{ line }}
+{% endfor %}

@@ -1,0 +1,9 @@
+elk:
+  elasticsearch_config: /etc/elasticsearch/elasticsearch.yml
+  elasticsearch_config_src: salt://elk/files/elasticsearch/elasticsearch
+  logstash_config:  /etc/logstash/logstash.yml
+  logstash_config_src: salt://elk/files/logstash/logstash
+  kibana_config: /etc/kibana/kibana.yml
+  kibana_config_src: salt://elk/files/kibana/kibana
+  filebeat_config: /etc/filebeat/filebeat.yml
+  filebeat_config_src: salt://elk/files/filebeat/filebeat

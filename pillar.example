@@ -1,0 +1,83 @@
+# vi: set ft=yaml:
+elk:
+  kibana:
+    - 'server.port: 5601'
+    - 'server.host: "localhost"'
+    - '#server.basePath: ""'
+    - '# server.maxPayloadBytes: 1048576'
+    - 'server.name: "{{ grains.host }}"'
+    - 'elasticsearch.url: "http://localhost:9200"'
+    - '# elasticsearch.preserveHost: true'
+    - 'kibana.index: ".filebeat"'
+    - '# kibana.defaultAppId: "discover"'
+    - '# elasticsearch.username: "user"'
+    - '# elasticsearch.password: "pass"'
+    - '# server.ssl.cert: /path/to/your/server.crt'
+    - '# server.ssl.key: /path/to/your/server.key'
+    - '# elasticsearch.ssl.cert: /path/to/your/client.crt'
+    - '# elasticsearch.ssl.key: /path/to/your/client.key'
+    - '# elasticsearch.ssl.ca: /path/to/your/CA.pem'
+    - '# elasticsearch.ssl.verify: true'
+    - '# elasticsearch.pingTimeout: 1500'
+    - '# elasticsearch.requestTimeout: 30000'
+    - '#elasticsearch.requestHeadersWhitelist: [ authorization ]'
+    - '#elasticsearch.customHeaders: {}'
+    - '#elasticsearch.shardTimeout: 0'
+    - 'elasticsearch.startupTimeout: 5000'
+    - '#pid.file: /var/run/kibana.pid'
+    - 'logging.dest: /var/log/kibana/kibana.log'
+    - '#logging.silent: false'
+    - 'logging.quiet: false'
+    - 'logging.verbose: false'
+    - 'ops.interval: 5000'
+
+  logstash:
+    - 'node.name: test'
+    - 'path.data: /var/lib/logstash'
+    - 'pipeline.workers: 2'
+    - '# pipeline.output.workers: 1'
+    - '# pipeline.batch.size: 125'
+    - '# pipeline.batch.delay: 5'
+    - '# pipeline.unsafe_shutdown: false'
+    - 'path.config: /etc/logstash/conf.d'
+    - '# config.string:'
+    - '# config.test_and_exit: false'
+    - 'config.reload.automatic: false'
+    - '# config.reload.interval: 3'
+    - '# config.debug: false'
+    - '# http.host: "127.0.0.1"'
+    - '# http.port: 9600-9700'
+    - '# log.level: info'
+    - 'path.logs: /var/log/logstash'
+    - '# path.plugins: []'
+
+  elasticsearch:
+    - 'cluster.name: single-box'
+    - 'node.name: tester-node'
+    - 'node.attr.rack: testing-lab'
+    - 'path.data: /var/lib/elasticsearch'
+    - 'path.logs: /var/log/elasticsearch'
+    - '#bootstrap.memory_lock: true'
+    - 'network.host: localhost'
+    - 'http.port: 9200'
+    - '#discovery.zen.ping.unicast.hosts: ["host1", "host2"]'
+    - '#discovery.zen.minimum_master_nodes: 3'
+    - '#gateway.recover_after_nodes: 3'
+    - '#node.max_local_storage_nodes: 1'
+    - 'action.destructive_requires_name: true'
+
+  filebeat:
+    input_type: 'log'
+    log_path: '/var/log/*.log'
+    exclude_lines: '["^DBG"]'
+    include_lines: '["^ERR", "^WARN"]'
+    exclude_files: '[".gz$"]'
+    elastic_host_out: '#["localhost:9200"]'
+    logstash_host_out: '["localhost:5044"]'
+    certificate_authorities:
+    ssl_certificate:
+    ssl_key:
+
+  nginx:
+    server_host: 'localhost'
+    server_port: 5601
