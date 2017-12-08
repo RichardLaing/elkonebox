@@ -90,9 +90,9 @@ output.elasticsearch:
   #password: "changeme"
 
 #----------------------------- Logstash output --------------------------------
-output.logstash:
+#output.logstash:
   # The Logstash hosts
-  hosts: {{ elk.filebeat.logstash_host_out }}
+  #hosts: {{ elk.filebeat.logstash_host_out }}
 
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications
